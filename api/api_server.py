@@ -15,8 +15,6 @@ import dspy
 import litellm
 import os
 
-# Set the OPENAI_API_KEY environment variable
-os.environ["OPENAI_API_KEY"] = "sk-" # Replace with your actual API key
 
 # Define your LLM model using LiteLLM
 model_name = "gpt-3.5-turbo" # Replace with your desired model
