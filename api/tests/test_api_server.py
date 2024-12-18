@@ -1,5 +1,5 @@
 import pytest
-from ..api_server import app  # Corrected import path
+from api.api_server import app  # Absolute import
 import os
 
 
