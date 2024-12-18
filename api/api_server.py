@@ -98,11 +98,8 @@ def _handle_chat_completions():
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
             return jsonify(serialized_response)
-        except litellm.exceptions.CompletionError as e:
+        except Exception as e:
             logging.error("Error during litellm.completion: %s", e)
-            return jsonify({"error": str(e)}), 500
-        except ValueError as e:
-            logging.error("Error handling chat completions: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:  # Specific exception handling
         logging.error("Error handling chat completions: %s", e)
