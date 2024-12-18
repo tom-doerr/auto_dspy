@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify
 import litellm
 import os
 import logging
+import json
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO, filename='api_requests.log', filemode='a')
 
 app = Flask(__name__)
 
