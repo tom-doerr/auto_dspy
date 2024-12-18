@@ -38,6 +38,8 @@ app = Flask(__name__)
 
 # Initialize and compile the DSPy pipeline
 pipeline = DSPyPipeline(student=ChatCompletionSignature)
+# Compile the pipeline with an empty trainset
+pipeline.compile(trainset=[])
 
 
 @app.route("/chat/completions", methods=["POST"])

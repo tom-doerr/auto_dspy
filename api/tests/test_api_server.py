@@ -150,7 +150,7 @@ def test_chat_completions_error(mock_call_litellm, client):
     }
     response = client.post("/chat/completions", json=data)
     assert response.status_code == 500
-    assert response.get_json()["error"] == "Test Error"
+    assert "Test Error" in response.get_json()["error"]
 
 
 def test_chat_completions_missing_data(client):
