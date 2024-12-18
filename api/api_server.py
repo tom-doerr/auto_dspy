@@ -16,6 +16,10 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
+# Ensure logging configuration is correctly set up
+if not os.path.exists(os.path.join(os.getcwd(), "logs")):
+    os.makedirs(os.path.join(os.getcwd(), "logs"))
+
 app = Flask(__name__)
 
 
@@ -98,7 +102,7 @@ def _handle_chat_completions():
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
             return jsonify(serialized_response)
-        except Exception as e:
+        except litellm.exceptions.CompletionError as e:
             logging.error("Error during litellm.completion: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:  # Specific exception handling
