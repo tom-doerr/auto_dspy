@@ -1,16 +1,15 @@
 import requests
 import json
+import time
 
-def run_inference(api_url, model, messages, temperature=0.7, max_tokens=150):
+def trigger_training(api_url, model, messages):
     """
-    Runs inference on the API.
+    Triggers the training of the DSPy pipeline by making a request to the API.
 
     Args:
         api_url (str): The URL of the API endpoint.
         model (str): The model to use for inference.
         messages (list): The list of messages for the chat.
-        temperature (float): The temperature for the model.
-        max_tokens (int): The maximum number of tokens for the response.
 
     Returns:
         dict: The JSON response from the API.
@@ -33,12 +32,25 @@ def run_inference(api_url, model, messages, temperature=0.7, max_tokens=150):
 if __name__ == "__main__":
     api_url = "http://0.0.0.0:5000/chat/completions"  # Replace with your API URL
     model = "gpt-3.5-turbo"  # Replace with your desired model
+
+    # Initial request to log data
     messages = [{"role": "user", "content": "What is the capital of France?"}]
-
-    response = run_inference(api_url, model, messages)
-
+    print("Making initial request to log data...")
+    response = trigger_training(api_url, model, messages)
     if response:
-        print("API Response:")
+        print("Initial API Response:")
+        print(json.dumps(response, indent=4))
+    else:
+        print("Failed to get a response from the API.")
+
+    time.sleep(2) # Wait for the log to be written
+
+    # Second request to trigger training
+    messages = [{"role": "user", "content": "What is the capital of Germany?"}]
+    print("Making second request to trigger training...")
+    response = trigger_training(api_url, model, messages)
+    if response:
+        print("Second API Response:")
         print(json.dumps(response, indent=4))
     else:
         print("Failed to get a response from the API.")
