@@ -1,6 +1,6 @@
 import pytest
 import dspy
-from ...dspy_pipeline.pipeline import DSPyPipeline  # Ensure this path is correct
+from ..pipeline import DSPyPipeline  # Corrected path
 from ...dspy_pipeline.signatures import ChatCompletionSignature
 from ...dspy_pipeline.utils import dummy_metric
 
