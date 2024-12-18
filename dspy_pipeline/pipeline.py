@@ -23,6 +23,7 @@ class DSPyPipeline(dspy.Module):
             trainset (list): A list of dspy.Example objects.
             max_bootstrapped_demos (int): Maximum number of bootstrapped demos.
             max_labeled_demos (int): Maximum number of labeled demos.
+        """
         if self.student is None:
             raise ValueError("Student signature not provided. Pass a student signature to the constructor.")
         self.predictor = self.mipro_optimizer.compile(
