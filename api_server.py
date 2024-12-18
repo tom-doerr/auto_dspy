@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
 import litellm
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 
@@ -16,17 +19,19 @@ def chat_completions():
         if not model or not messages:
             return jsonify({"error": "Missing 'model' or 'messages' in request"}), 400
 
-        response = litellm.completion(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens
-        )
-        
-        return jsonify(response)
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logging.debug(f"Request  {data}")
+        try:
+            response = litellm.completion(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            logging.debug(f"Response  {response}")
+            return jsonify(response)
+        except Exception as e:
+            logging.error(f"Error during litellm.completion: {e}")
+            return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get("PORT", 5000)))
