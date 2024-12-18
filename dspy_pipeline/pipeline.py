@@ -16,7 +16,7 @@ class DSPyPipeline(dspy.Module):
         super().__init__()
         self.mipro_optimizer = MIPROv2(metric=metric, auto=auto)
         self.predictor = None
-        self.student = student
+        self.student_class = student
 
     def forward(self, question):
         """
@@ -49,7 +49,7 @@ class DSPyPipeline(dspy.Module):
                 "Student signature not provided. Pass a student signature to the constructor."
             )
         self.predictor = self.mipro_optimizer.compile(
-            student=self.student,
+            student=self.student_class(),
             trainset=trainset,
             max_bootstrapped_demos=max_bootstrapped_demos,
             max_labeled_demos=max_labeled_demos,
