@@ -53,7 +53,7 @@ def test_chat_completions_with_temperature_and_max_tokens():
     response = app.test_client().post("/chat/completions", json=data)
     assert response.status_code == 200
     assert response.json is not None
-    assert "choices" in response.json
+    assert "answer" in response.json
 
 
 def test_chat_completions_invalid_temperature():
@@ -65,6 +65,8 @@ def test_chat_completions_invalid_temperature():
     }
     response = app.test_client().post("/chat/completions", json=data)
     assert response.status_code == 500
+    assert "error" in response.get_json()
+    assert "error" in response.get_json()
 
 
 def test_chat_completions_invalid_max_tokens():
@@ -101,7 +103,7 @@ def test_chat_completions_error(mock_call_litellm, client):
     }
     response = client.post("/chat/completions", json=data)
     assert response.status_code == 500
-    assert "Test Error" in response.get_json()["error"]
+    assert "Test Error" in response.get_json().get("error")
 
 
 import os
