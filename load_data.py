@@ -32,7 +32,7 @@ if __name__ == '__main__':
     log_file = 'api_requests.log'
     loaded_data = load_and_parse_log_data(log_file)
 
-    if loaded_
+    if loaded_data is not None:
         logging.info(f"Successfully loaded {len(loaded_data)} log entries.")
         # Example of how to access the data
         for entry in loaded_data[:5]:  # Print the first 5 entries
