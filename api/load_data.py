@@ -61,11 +61,11 @@ def extract_qa_pairs(log_entries):
 
         # Get the answer from the response data
         response_data = entry.get("response_data", {})
-        if response_data and "choices" in response_
+        if response_data and "choices" in response_:
             first_choice = response_data["choices"][0]
             if "message" in first_choice and first_choice["message"].get("role") == "assistant":
                 answer = first_choice["message"].get("content")
-        elif response_data and "answer" in response_
+        elif response_data and "answer" in response_:
             answer = response_data.get("answer")
 
         if question and answer:
