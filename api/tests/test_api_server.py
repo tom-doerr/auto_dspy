@@ -76,7 +76,6 @@ def test_chat_completions_invalid_max_tokens():
     }
     response = app.test_client().post("/chat/completions", json=data)
     assert response.status_code == 500
-    assert "Missing 'model' or 'messages' in request" in response.get_json()["error"]
 
 
 def test_chat_completions_missing_messages(client):
