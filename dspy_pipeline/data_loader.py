@@ -48,6 +48,6 @@ def create_dspy_dataset_from_logs(log_file_path):
         
         # Create example only if we have both question and answer
         if question and answer:
-            dspy_example = dspy.Example(question=question, answer=answer)
+            dspy_example = dspy.Example(question=question, answer=answer).with_inputs("question")
             dspy_examples.append(dspy_example)
     return dspy_examples
