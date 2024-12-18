@@ -13,4 +13,4 @@ class ChatCompletionSignature(dspy.ChainOfThought):
     answer = dspy.OutputField()
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(signature=self, **kwargs)
