@@ -13,8 +13,17 @@ from dspy_pipeline.pipeline import DSPyPipeline
 from dspy_pipeline.signatures import ChatCompletionSignature
 import dspy
 import litellm
+import os
 
-dspy.configure(lm=litellm)
+# Set the OPENAI_API_KEY environment variable
+os.environ["OPENAI_API_KEY"] = "sk-" # Replace with your actual API key
+
+# Define your LLM model using LiteLLM
+model_name = "gpt-3.5-turbo" # Replace with your desired model
+lm = dspy.LM(model=f"openai/{model_name}", max_tokens=500, temperature=0.1)
+
+# Configure DSPy to use the LLM
+dspy.configure(lm=lm)
 
 logging.basicConfig(
     level=logging.INFO,
