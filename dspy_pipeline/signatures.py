@@ -17,3 +17,7 @@ class ChatCompletionSignature(dspy.Signature):
     def predictors(cls):
         """Return the list of predictors needed for this signature."""
         return ['answer']
+
+    def __deepcopy__(self, memo):
+        """Return a deep copy of the signature."""
+        return self
