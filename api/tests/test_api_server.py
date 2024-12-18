@@ -51,10 +51,9 @@ def test_chat_completions_missing_messages(client):
     assert "Missing 'model' or 'messages' in request" in response.get_json()["error"]
 
 
-def test_chat_completions_error(client, monkeypatch):
+@patch("api.api_server._call_litellm")
+def test_chat_completions_error(mock_call_litellm, client):
     """Test chat completions with an error from litellm."""
-
-    # Test with an error from litellm
     # Test with an error from litellm
     mock_call_litellm.side_effect = Exception("Test Error")
 
