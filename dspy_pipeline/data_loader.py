@@ -26,12 +26,19 @@ def create_dspy_dataset_from_logs(log_file_path):
     for entry in log_entries:
         request_data = entry.get("request_data", {})
         messages = request_data.get("messages", [])
-        if messages:
-            # Assuming the last message is the user's query
-            last_message = messages[-1]
-            if last_message.get("role") == "user":
-                question = last_message.get("content")
-                # Create a dspy.Example with the question
-                dspy_example = dspy.Example(question=question)
-                dspy_examples.append(dspy_example)
+        if not messages:
+            continue
+
+        # Find the user's question and the assistant's response
+        question = None
+        answer = None
+        for message in reversed(messages):
+            if message.get("role") == "user" and question is None:
+                question = message.get("content")
+            elif message.get("role") == "assistant" and answer is None:
+                answer = message.get("content")
+        
+        if question and answer:
+            dspy_example = dspy.Example(question=question, answer=answer)
+            dspy_examples.append(dspy_example)
     return dspy_examples
