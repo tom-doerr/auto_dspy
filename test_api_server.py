@@ -50,9 +50,9 @@ def test_chat_completions_missing_messages(client):
 
 def test_chat_completions_error(client, monkeypatch):
     # Test with an error from litellm
-    def mock_completion(*args, **kwargs):
+    def mock_call_litellm(*args, **kwargs):
         raise Exception("Test Error")
-    monkeypatch.setattr(litellm, "completion", mock_completion)
+    monkeypatch.setattr("api_server._call_litellm", mock_call_litellm)
     
     data = {
         "model": "gpt-3.5-turbo",

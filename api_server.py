@@ -21,7 +21,7 @@ def chat_completions():
 
         logging.debug(f"Request  {data}")
         try:
-            response = litellm.completion(
+            response = _call_litellm(
                 model=model,
                 messages=messages,
                 temperature=temperature,
@@ -32,6 +32,17 @@ def chat_completions():
         except Exception as e:
             logging.error(f"Error during litellm.completion: {e}")
             return jsonify({"error": str(e)}), 500
+
+def _call_litellm(model, messages, temperature, max_tokens):
+    """
+    Helper function to call litellm.completion
+    """
+    return litellm.completion(
+        model=model,
+        messages=messages,
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get("PORT", 5000)))
