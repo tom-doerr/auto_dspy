@@ -2,7 +2,7 @@ import pytest
 import os
 import dspy
 import json
-from auto_dspy.dspy_pipeline.data_loader import (
+from ..dspy_pipeline.data_loader import (
     create_dspy_dataset_from_logs,
 )  # Ensure this path is correct
 
