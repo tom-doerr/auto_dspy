@@ -1,7 +1,5 @@
 import json
 import datetime
-import logging
-import dspy
 import os
 
 LOG_FILE_PATH = os.path.join(os.getcwd(), "api_requests.log")
@@ -49,11 +47,23 @@ def _log_request(data, response=None):
     if response:
         log_data["response_data"] = response
     
+    _write_to_log_file(log_data)
+
+
+def _write_to_log_file(log_data):
+    """
+    Helper function to write log data to the log file.
+    """
     # Check if log file exists and is too large
     if os.path.exists(LOG_FILE_PATH) and os.path.getsize(LOG_FILE_PATH) > MAX_LOG_SIZE:
         _rotate_log_file()
     
-    logging.info(json.dumps(log_data))
+    try:
+        with open(LOG_FILE_PATH, "a") as f:
+            json.dump(log_data, f)
+            f.write("\n")  # Add a newline for each JSON object
+    except IOError as e:
+        print(f"Error writing to log file: {e}")
 
 
 def _rotate_log_file():
@@ -63,4 +73,4 @@ def _rotate_log_file():
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     rotated_log_file = f"{LOG_FILE_PATH}.{timestamp}"
     os.rename(LOG_FILE_PATH, rotated_log_file)
-    logging.info(f"Log file rotated to: {rotated_log_file}")
+    print(f"Log file rotated to: {rotated_log_file}")
