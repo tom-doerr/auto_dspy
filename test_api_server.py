@@ -2,6 +2,7 @@ import pytest
 import json
 from api_server import app
 import os
+import litellm
 
 @pytest.fixture
 def client():
