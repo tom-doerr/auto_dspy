@@ -14,7 +14,7 @@ def test_dspy_pipeline_compile_and_forward():
     ]
 
     # Initialize and compile the pipeline
-    pipeline = DSPyPipeline(student=ChatCompletionSignature()).compile(
+    pipeline = DSPyPipeline(student=ChatCompletionSignature).compile(
         trainset=trainset
     )
 
@@ -30,7 +30,7 @@ def test_dspy_pipeline_compile_and_forward():
 def test_dspy_pipeline_not_compiled():
     """Test that the pipeline raises an error if not compiled."""
     # Initialize the pipeline without compiling
-    pipeline = DSPyPipeline(student=ChatCompletionSignature())
+    pipeline = DSPyPipeline(student=ChatCompletionSignature)
 
     # Test that forward pass raises an error
     with pytest.raises(
@@ -53,7 +53,7 @@ def test_dspy_pipeline_compile_and_forward_with_custom_student():
     ]
 
     # Initialize and compile the pipeline
-    pipeline = DSPyPipeline(student=CustomSignature()).compile(trainset=trainset)
+    pipeline = DSPyPipeline(student=CustomSignature).compile(trainset=trainset)
 
     # Test forward pass
     question = "What is the capital of Germany?"
