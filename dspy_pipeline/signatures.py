@@ -3,10 +3,9 @@ This module contains signatures for various DSPy tasks.
 """
 
 import dspy
-from dspy.functional import chain_of_thought
 
 
-class ChatCompletionSignature(chain_of_thought):
+class ChatCompletionSignature(dspy.ChainOfThought):
     """
     A signature for chat completion tasks.
     """
