@@ -71,6 +71,8 @@ def _log_request(data):
 def _handle_chat_completions():
     try:
         data = request.get_json()
+        if data is None:
+            return jsonify({"error": "Request body is empty or not properly formatted"}), 400
         _log_request(data)
         model = data.get("model")
         messages = data.get("messages")
