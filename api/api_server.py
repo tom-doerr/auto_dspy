@@ -9,6 +9,8 @@ import datetime
 from flask import Flask, request, jsonify
 from api.litellm_client import _call_litellm
 from api.utils import _serialize_response, _log_request
+from dspy_pipeline.pipeline import DSPyPipeline
+from dspy_pipeline.signatures import ChatCompletionSignature
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,6 +24,9 @@ if not os.path.exists(os.path.join(os.getcwd(), "logs")):
     os.makedirs(os.path.join(os.getcwd(), "logs"))
 
 app = Flask(__name__)
+
+# Initialize and compile the DSPy pipeline
+pipeline = DSPyPipeline(student=ChatCompletionSignature).compile(trainset=[])
 
 
 @app.route("/chat/completions", methods=["POST"])
@@ -49,18 +54,14 @@ def _handle_chat_completions():
 
         logging.debug("Request  %s", data)
         try:
-            response = _call_litellm(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-            )
-            logging.debug("Response  %s", response)
-            serialized_response = _serialize_response(response)
+            # Use the DSPy pipeline to generate the response
+            question = messages[-1]["content"]
+            prediction = pipeline(question)
+            serialized_response = _serialize_response(prediction)
             _log_request(data, serialized_response)
             return jsonify(serialized_response)
         except Exception as e:
-            logging.error("Error during litellm.completion: %s", e)
+            logging.error("Error during DSPy pipeline execution: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:
         logging.error("Error handling chat completions: %s", e)

@@ -19,8 +19,6 @@ def run_inference(api_url, model, messages, temperature=0.7, max_tokens=150):
     data = {
         "model": model,
         "messages": messages,
-        "temperature": temperature,
-        "max_tokens": max_tokens,
     }
 
     try:
