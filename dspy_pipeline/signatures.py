@@ -12,3 +12,6 @@ class ChatCompletionSignature(dspy.ChainOfThought):
 
     question = dspy.InputField()
     answer = dspy.OutputField()
+
+    def __deepcopy__(self, memo):
+        return self.__class__(**self.__dict__)

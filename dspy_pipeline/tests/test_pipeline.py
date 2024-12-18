@@ -44,6 +44,9 @@ def test_dspy_pipeline_compile_and_forward_with_custom_student():
         question = dspy.InputField()
         answer = dspy.OutputField()
 
+        def __deepcopy__(self, memo):
+            return self.__class__(**self.__dict__)
+
     # Create a dummy trainset
     trainset = [
         dspy.Example(question="What is the capital of France?"),
