@@ -1,3 +1,7 @@
+"""
+API server for handling chat completions using litellm.
+"""
+
 from flask import Flask, request, jsonify
 import litellm
 import os
@@ -12,6 +16,7 @@ app = Flask(__name__)
 
 @app.route("/chat/completions", methods=["POST"])
 def chat_completions():
+    """Handle chat completions endpoint."""
     return _handle_chat_completions()
 
 
@@ -75,7 +80,7 @@ def _handle_chat_completions():
         if not model or not messages:
             return jsonify({"error": "Missing 'model' or 'messages' in request"}), 400
 
-        logging.debug(f"Request  {data}")
+        logging.debug("Request  %s", data)
         try:
             response = _call_litellm(
                 model=model,
@@ -83,13 +88,14 @@ def _handle_chat_completions():
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
-            logging.debug(f"Response  {response}")
-            return jsonify(response)
-        except Exception as e:
-            logging.error(f"Error during litellm.completion: {e}")
+            logging.debug("Response  %s", response)
+            serialized_response = _serialize_response(response)
+            return jsonify(serialized_response)
+        except litellm.CompletionError as e:
+            logging.error("Error during litellm.completion: %s", e)
             return jsonify({"error": str(e)}), 500
     except Exception as e:
-        logging.error(f"Error handling chat completions: {e}")
+        logging.error("Error handling chat completions: %s", e)
         return jsonify({"error": str(e)}), 500
 
 
