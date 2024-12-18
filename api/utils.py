@@ -1,6 +1,7 @@
 import json
 import datetime
 import logging
+import dspy
 
 def _serialize_response(response):
     """
