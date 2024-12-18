@@ -8,6 +8,7 @@ import json
 import datetime
 from flask import Flask, request, jsonify
 import litellm
+from litellm.exceptions import CompletionError  # Ensure this import is correct
 
 logging.basicConfig(
     level=logging.INFO,
@@ -102,7 +103,7 @@ def _handle_chat_completions():
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
             return jsonify(serialized_response)
-        except litellm.exceptions.CompletionError as e:
+        except CompletionError as e:  # Ensure this is the correct exception
             logging.error("Error during litellm.completion: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:  # Specific exception handling
