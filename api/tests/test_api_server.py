@@ -55,12 +55,8 @@ def test_chat_completions_error(client, monkeypatch):
     """Test chat completions with an error from litellm."""
 
     # Test with an error from litellm
-    def mock_handle_chat_completions(*args, **kwargs):
-        raise ValueError("Test Error")
-
-    monkeypatch.setattr(
-        "api_server._handle_chat_completions", mock_handle_chat_completions
-    )
+    # Test with an error from litellm
+    mock_call_litellm.side_effect = Exception("Test Error")
 
     data = {
         "model": "gpt-3.5-turbo",
