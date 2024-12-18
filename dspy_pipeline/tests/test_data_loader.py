@@ -33,6 +33,33 @@ def test_create_dspy_dataset_from_logs_success():
     assert len(dspy_dataset) == 0  # No examples created because no response data
 
 
+def test_create_dspy_dataset_from_logs_multiple_messages():
+    """Test creating a DSPy dataset with multiple messages from the same user."""
+    log_content = """
+    {"timestamp": "2024-05-02T10:00:00", "request_data": {"messages": [{"role": "user", "content": "hello"}, {"role": "user", "content": "how are you?"}]}, "response_data": {"choices": [{"message": {"role": "assistant", "content": "I am fine, thank you"}}]}}
+    """
+    log_file = create_dummy_log_file(log_content)
+    dspy_dataset = create_dspy_dataset_from_logs(log_file)
+    remove_dummy_log_file(log_file)
+
+    assert len(dspy_dataset) == 1
+    assert isinstance(dspy_dataset[0], dspy.Example)
+    assert dspy_dataset[0].question == "how are you?"
+    assert dspy_dataset[0].answer == "I am fine, thank you"
+
+
+def test_create_dspy_dataset_from_logs_no_response():
+    """Test creating a DSPy dataset with no response data."""
+    log_content = """
+    {"timestamp": "2024-05-02T10:00:00", "request_data": {"messages": [{"role": "user", "content": "hello"}]}}
+    """
+    log_file = create_dummy_log_file(log_content)
+    dspy_dataset = create_dspy_dataset_from_logs(log_file)
+    remove_dummy_log_file(log_file)
+
+    assert len(dspy_dataset) == 0
+
+
 def test_create_dspy_dataset_from_logs_with_response_success():
     """Test creating a DSPy dataset from valid log data with responses."""
     log_content = """
