@@ -62,9 +62,11 @@ def _handle_chat_completions():
             return jsonify(serialized_response)
         except Exception as e:
             logging.error("Error during DSPy pipeline execution: %s", e)
+            print(f"Error during DSPy pipeline execution: {e}")
             return jsonify({"error": str(e)}), 500
     except ValueError as e:
         logging.error("Error handling chat completions: %s", e)
+        print(f"Error handling chat completions: {e}")
         return jsonify({"error": str(e)}), 500
 
 
