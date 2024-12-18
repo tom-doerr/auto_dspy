@@ -4,9 +4,11 @@ import logging
 
 def _serialize_response(response):
     """
-    Helper function to serialize the ModelResponse object
+    Helper function to serialize the response object.
+    Handles both litellm ModelResponse and dspy.Prediction objects.
     """
     if hasattr(response, "choices") and isinstance(response.choices, list):
+        # Handle litellm ModelResponse
         return {
             "choices": [
                 {
@@ -26,6 +28,9 @@ def _serialize_response(response):
                 "total_tokens": response.usage.total_tokens,
             },
         }
+    elif isinstance(response, dspy.Prediction):
+        # Handle dspy.Prediction
+        return {"answer": response.answer}
     return response
 
 
