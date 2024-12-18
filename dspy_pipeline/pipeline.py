@@ -45,9 +45,7 @@ class DSPyPipeline(dspy.Module):
             max_labeled_demos (int): Maximum number of labeled demos.
         """
         if self.student is None:
-            raise ValueError(
-                "Student signature not provided. Pass a student signature to the constructor."
-            )
+            raise ValueError("Student signature not provided. Pass a student signature to the constructor.")
         self.predictor = self.mipro_optimizer.compile(
             student=self.student,
             trainset=trainset,
