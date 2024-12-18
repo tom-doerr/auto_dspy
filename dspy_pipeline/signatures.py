@@ -6,7 +6,7 @@ import dspy
 from dspy.functional import chain_of_thought
 
 
-class ChatCompletionSignature(ChainOfThought):
+class ChatCompletionSignature(chain_of_thought):
     """
     A signature for chat completion tasks.
     """
