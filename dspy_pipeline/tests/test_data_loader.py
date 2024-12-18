@@ -2,7 +2,7 @@ import pytest
 import os
 import dspy
 import json
-from auto_dspy.dspy_pipeline.data_loader import create_dspy_dataset_from_logs
+from dspy_pipeline.data_loader import create_dspy_dataset_from_logs
 
 
 def create_dummy_log_file(content, filename="test_log.log"):
