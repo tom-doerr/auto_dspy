@@ -51,7 +51,7 @@ class DSPyPipeline(dspy.Module):
         if not trainset:
             import logging
             logging.warning("No training data provided. Skipping training.")
-            self.predictor = self.student_class()
+            self.predictor = dspy.Predict(self.student_class)
             return self
         self.predictor = self.mipro_optimizer.compile(
             student=self.student_class,
