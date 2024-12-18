@@ -1,7 +1,7 @@
 import pytest
 import os
 from unittest.mock import patch
-from api.api_server import app
+from auto_dspy.api.api_server import app
 
 
 @pytest.fixture
