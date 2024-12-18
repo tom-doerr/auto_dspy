@@ -9,7 +9,12 @@ import datetime
 from flask import Flask, request, jsonify
 import litellm
 
-logging.basicConfig(level=logging.INFO, filename="api_requests.log", filemode="a", format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    filename="api_requests.log",
+    filemode="a",
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 app = Flask(__name__)
 
