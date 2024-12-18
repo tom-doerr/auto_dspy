@@ -11,6 +11,10 @@ from api.litellm_client import _call_litellm
 from api.utils import _serialize_response, _log_request
 from dspy_pipeline.pipeline import DSPyPipeline
 from dspy_pipeline.signatures import ChatCompletionSignature
+import dspy
+import litellm
+
+dspy.configure(lm=litellm)
 
 logging.basicConfig(
     level=logging.INFO,
