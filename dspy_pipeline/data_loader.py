@@ -29,15 +29,24 @@ def create_dspy_dataset_from_logs(log_file_path):
         if not messages:
             continue
 
-        # Find the user's question and the assistant's response
+        # Find the user's question (from messages) and assistant's response (from response_data)
         question = None
         answer = None
-        for message in reversed(messages):
-            if message.get("role") == "user" and question is None:
-                question = message.get("content")
-            elif message.get("role") == "assistant" and answer is None:
-                answer = message.get("content")
         
+        # Get the question from the last user message
+        for message in reversed(messages):
+            if message.get("role") == "user":
+                question = message.get("content")
+                break
+        
+        # Get the answer from the response data
+        response_data = entry.get("response_data", {})
+        if response_data and "choices" in response_data:
+            first_choice = response_data["choices"][0]
+            if "message" in first_choice and first_choice["message"].get("role") == "assistant":
+                answer = first_choice["message"].get("content")
+        
+        # Create example only if we have both question and answer
         if question and answer:
             dspy_example = dspy.Example(question=question, answer=answer)
             dspy_examples.append(dspy_example)
