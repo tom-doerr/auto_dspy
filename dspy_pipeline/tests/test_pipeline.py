@@ -2,6 +2,7 @@ import pytest
 import dspy
 from dspy_pipeline.pipeline import DSPyPipeline
 from dspy_pipeline.signatures import ChatCompletionSignature
+from dspy.functional import chain_of_thought
 from dspy_pipeline.utils import dummy_metric
 
 
