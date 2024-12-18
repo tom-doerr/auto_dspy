@@ -37,7 +37,7 @@ if not os.path.exists(os.path.join(os.getcwd(), "logs")):
 app = Flask(__name__)
 
 # Initialize and compile the DSPy pipeline
-pipeline = DSPyPipeline(student=ChatCompletionSignature).compile(trainset=[])
+pipeline = DSPyPipeline(student=ChatCompletionSignature)
 
 
 @app.route("/chat/completions", methods=["POST"])
@@ -79,6 +79,9 @@ def _handle_chat_completions():
         logging.error("Error handling chat completions: %s", e)
         print(f"Error handling chat completions: {e}")
         return jsonify({"error": str(e)}), 500
+    
+    # Initialize and compile the DSPy pipeline
+    # pipeline = DSPyPipeline(student=ChatCompletionSignature).compile(trainset=[])
 
 
 if __name__ == "__main__":
