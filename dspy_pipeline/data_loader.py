@@ -56,6 +56,28 @@ def create_dspy_dataset_from_logs(log_file_path):
     return dspy_examples
 
 
+def create_dspy_dataset_from_qa_pairs(log_file_path):
+    """
+    Creates a DSPy dataset from the log file using extracted QA pairs.
+
+    Args:
+        log_file_path (str): The path to the log file.
+
+    Returns:
+        list: A list of dspy.Example objects.
+    """
+    log_entries = load_and_parse_log_data(log_file_path)
+    if log_entries is None:
+        return []
+
+    qa_pairs = extract_qa_pairs(log_entries)
+    dspy_examples = [
+        dspy.Example(question=qa_pair["question"], answer=qa_pair["answer"]).with_inputs("question")
+        for qa_pair in qa_pairs
+    ]
+    return dspy_examples
+
+
 if __name__ == "__main__":
     log_file_path = "api_requests.log"  # Path to your log file
     logging.info(f"Loading log data from: {log_file_path}")
@@ -66,6 +88,16 @@ if __name__ == "__main__":
     else:
         logging.info(f"Training data loaded. Number of examples: {len(trainset)}")
         for example in trainset:
+            print(f"Question: {example.question}")
+            print(f"Answer: {example.answer}")
+            print("-" * 20)
+    
+    trainset_qa = create_dspy_dataset_from_qa_pairs(log_file_path)
+    if not trainset_qa:
+        logging.warning("No training data found in log file using QA pairs.")
+    else:
+        logging.info(f"Training data loaded using QA pairs. Number of examples: {len(trainset_qa)}")
+        for example in trainset_qa:
             print(f"Question: {example.question}")
             print(f"Answer: {example.answer}")
             print("-" * 20)
