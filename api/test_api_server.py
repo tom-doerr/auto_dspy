@@ -1,18 +1,18 @@
 import pytest
-import json
 from api_server import app
 import os
-import litellm
 
 
 @pytest.fixture
 def client():
+    """Fixture to provide a test client for the Flask app."""
     app.config["TESTING"] = True
     with app.test_client() as client:
         yield client
 
 
 def test_chat_completions_success(client):
+    """Test successful chat completions."""
     # Mock environment variable for custom base url
     os.environ["CUSTOM_BASE_URL"] = "http://test_url"
 
@@ -50,12 +50,13 @@ def test_chat_completions_missing_messages(client):
 
 
 def test_chat_completions_error(client, monkeypatch):
+    """Test chat completions with an error from litellm."""
     # Test with an error from litellm
-    def mock_call_litellm(*args, **kwargs):
-        raise Exception("Test Error")
+    def mock_handle_chat_completions(*args, **kwargs):
+        raise ValueError("Test Error")
 
     monkeypatch.setattr(
-        "api_server._call_litellm", mock_call_litellm
+        "api_server._handle_chat_completions", mock_handle_chat_completions
     )
 
     data = {

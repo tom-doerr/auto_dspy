@@ -68,13 +68,13 @@ def _handle_chat_completions():
                 max_tokens=max_tokens
             )
             logging.debug(f"Response  {response}")
-            return jsonify(_serialize_response(response))
+            return jsonify(response)
         except Exception as e:
             logging.error(f"Error during litellm.completion: {e}")
             return jsonify({"error": str(e)}), 500
     except Exception as e:
-        logging.error(f"Error processing request: {e}")
-        return jsonify({"error": "Internal Server Error"}), 500
+        logging.error(f"Error handling chat completions: {e}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get("PORT", 5000)))
