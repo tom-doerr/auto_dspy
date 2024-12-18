@@ -1,6 +1,6 @@
 import pytest
 import json
-from .load_data import load_and_parse_log_data
+from load_data import load_and_parse_log_data
 import os
 
 def create_dummy_log_file(content, filename="test_log.log"):

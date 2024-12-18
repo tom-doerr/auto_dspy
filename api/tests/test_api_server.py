@@ -1,5 +1,5 @@
 import pytest
-from .api_server import app
+from api_server import app
 import os
 
 
