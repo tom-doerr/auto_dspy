@@ -77,6 +77,7 @@ from flask import Flask
 from api_server import app
 from unittest.mock import patch
 import litellm
+from litellm.exceptions import SomeOtherException  # Replace with the correct exception class
 
 @pytest.fixture
 def client():
