@@ -14,9 +14,7 @@ def test_dspy_pipeline_compile_and_forward():
     ]
 
     # Initialize and compile the pipeline
-    pipeline = DSPyPipeline(student=ChatCompletionSignature).compile(
-        trainset=trainset
-    )
+    pipeline = DSPyPipeline(student=ChatCompletionSignature).compile(trainset=trainset)
 
     # Test forward pass
     question = "What is the capital of Germany?"
