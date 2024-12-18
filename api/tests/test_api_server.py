@@ -28,6 +28,7 @@ def test_chat_completions_success(client):
     assert response.get_json() is not None
     # Add more assertions to check the response content if needed
 
+
 def test_chat_completions_missing_model(client):
     """Test chat completions with missing model."""
     # Test with missing model
@@ -40,6 +41,7 @@ def test_chat_completions_missing_model(client):
     assert response.status_code == 400
     assert "Missing 'model' or 'messages' in request" in response.get_json()["error"]
 
+
 def test_chat_completions_missing_messages(client):
     """Test chat completions with missing messages."""
     # Test with missing messages
@@ -48,8 +50,10 @@ def test_chat_completions_missing_messages(client):
     assert response.status_code == 400
     assert "Missing 'model' or 'messages' in request" in response.get_json()["error"]
 
+
 def test_chat_completions_error(client, monkeypatch):
     """Test chat completions with an error from litellm."""
+
     # Test with an error from litellm
     def mock_handle_chat_completions(*args, **kwargs):
         raise ValueError("Test Error")
