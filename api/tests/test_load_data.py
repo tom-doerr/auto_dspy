@@ -1,7 +1,7 @@
 import pytest
-import json
-from load_data import load_and_parse_log_data
 import os
+import json
+from api.load_data import load_and_parse_log_data
 
 
 def create_dummy_log_file(content, filename="test_log.log"):

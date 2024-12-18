@@ -1,7 +1,7 @@
 import pytest
-from api.api_server import app  # Absolute import
 import os
 from unittest.mock import patch
+from api.api_server import app
 
 
 @pytest.fixture
