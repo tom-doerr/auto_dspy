@@ -1,6 +1,7 @@
 import dspy
 from api.load_data import load_and_parse_log_data
 
+
 def create_dspy_dataset_from_logs(log_file_path):
     """
     Creates a DSPy dataset from the log file.
