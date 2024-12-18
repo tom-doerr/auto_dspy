@@ -12,3 +12,13 @@ class ChatCompletionSignature(dspy.Signature):
 
     question = dspy.InputField()
     answer = dspy.OutputField()
+
+    def predictors(self):
+        """Return the list of predictors needed for this signature."""
+        return [
+            dict(
+                name='answer',
+                temperature=0.7,
+                max_tokens=100,
+            )
+        ]
