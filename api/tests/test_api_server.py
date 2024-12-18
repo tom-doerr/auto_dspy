@@ -39,43 +39,43 @@ def test_chat_completions_missing_model(client):
         "max_tokens": 10,
     }
     response = client.post("/chat/completions", json=data)
-    assert response.status_code ==         assert response.status_code == 400
+    assert response.status_code == 400
 
 
-    assert response.status_code == def test_chat_completions_with_temperature_and_max_tokens():
-    assert response.status_code ==     """Test chat completions endpoint with temperature and max_tokens."""
-    assert response.status_code ==     data = {
-    assert response.status_code ==         "model": "gpt-3.5-turbo",
-    assert response.status_code ==         "messages": [{"role": "user", "content": "hello"}],
-    assert response.status_code ==         "temperature": 0.5,
-    assert response.status_code ==         "max_tokens": 100,
-    assert response.status_code ==     }
-    assert response.status_code ==     response = app.test_client().post("/chat/completions", json=data)
-    assert response.status_code ==     assert response.status_code == 200
-    assert response.status_code ==     assert response.json is not None
-    assert response.status_code ==     assert "choices" in response.json
+def test_chat_completions_with_temperature_and_max_tokens():
+    """Test chat completions endpoint with temperature and max_tokens."""
+    data = {
+        "model": "gpt-3.5-turbo",
+        "messages": [{"role": "user", "content": "hello"}],
+        "temperature": 0.5,
+        "max_tokens": 100,
+    }
+    response = app.test_client().post("/chat/completions", json=data)
+    assert response.status_code == 200
+    assert response.json is not None
+    assert "choices" in response.json
 
 
-    assert response.status_code == def test_chat_completions_invalid_temperature():
-    assert response.status_code ==     """Test chat completions endpoint with invalid temperature."""
-    assert response.status_code ==     data = {
-    assert response.status_code ==         "model": "gpt-3.5-turbo",
-    assert response.status_code ==         "messages": [{"role": "user", "content": "hello"}],
-    assert response.status_code ==         "temperature": "invalid",
-    assert response.status_code ==     }
-    assert response.status_code ==     response = app.test_client().post("/chat/completions", json=data)
-    assert response.status_code ==     assert response.status_code == 500
+def test_chat_completions_invalid_temperature():
+    """Test chat completions endpoint with invalid temperature."""
+    data = {
+        "model": "gpt-3.5-turbo",
+        "messages": [{"role": "user", "content": "hello"}],
+        "temperature": "invalid",
+    }
+    response = app.test_client().post("/chat/completions", json=data)
+    assert response.status_code == 500
 
 
-    assert response.status_code == def test_chat_completions_invalid_max_tokens():
-    assert response.status_code ==     """Test chat completions endpoint with invalid max_tokens."""
-    assert response.status_code ==     data = {
-    assert response.status_code ==         "model": "gpt-3.5-turbo",
-    assert response.status_code ==         "messages": [{"role": "user", "content": "hello"}],
-    assert response.status_code ==         "max_tokens": "invalid",
-    assert response.status_code ==     }
-    assert response.status_code ==     response = app.test_client().post("/chat/completions", json=data)
-    assert response.status_code ==     assert response.status_code == 500
+def test_chat_completions_invalid_max_tokens():
+    """Test chat completions endpoint with invalid max_tokens."""
+    data = {
+        "model": "gpt-3.5-turbo",
+        "messages": [{"role": "user", "content": "hello"}],
+        "max_tokens": "invalid",
+    }
+    response = app.test_client().post("/chat/completions", json=data)
+    assert response.status_code == 500
     assert "Missing 'model' or 'messages' in request" in response.get_json()["error"]
 
 
