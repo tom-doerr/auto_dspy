@@ -7,8 +7,8 @@ import logging
 import json
 import datetime
 from flask import Flask, request, jsonify
-import litellm
-# from litellm.exceptions import CompletionException
+from api.litellm_client import _call_litellm
+from api.utils import _serialize_response, _log_request
 
 logging.basicConfig(
     level=logging.INFO,
@@ -28,51 +28,6 @@ app = Flask(__name__)
 def chat_completions():
     """Handle chat completions endpoint."""
     return _handle_chat_completions()
-
-
-def _call_litellm(model, messages, temperature, max_tokens):
-    """
-    Helper function to call litellm.completion
-    """
-    return litellm.completion(
-        model=model, messages=messages, temperature=temperature, max_tokens=max_tokens
-    )
-
-
-def _serialize_response(response):
-    """
-    Helper function to serialize the ModelResponse object
-    """
-    if hasattr(response, "choices") and isinstance(response.choices, list):
-        return {
-            "choices": [
-                {
-                    "message": {
-                        "content": choice.message.content,
-                        "role": choice.message.role,
-                    },
-                    "finish_reason": choice.finish_reason,
-                    "index": choice.index,
-                }
-                for choice in response.choices
-            ],
-            "model": response.model,
-            "usage": {
-                "completion_tokens": response.usage.completion_tokens,
-                "prompt_tokens": response.usage.prompt_tokens,
-                "total_tokens": response.usage.total_tokens,
-            },
-        }
-    return response
-
-
-def _log_request(data):
-    """
-    Helper function to log the request data with timestamp in JSON format
-    """
-    timestamp = datetime.datetime.now().isoformat()
-    log_data = {"timestamp": timestamp, "request_data": data}
-    logging.info(json.dumps(log_data))
 
 
 def _handle_chat_completions():
@@ -103,7 +58,7 @@ def _handle_chat_completions():
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
             return jsonify(serialized_response)
-        except Exception as e:  # Ensure this is the correct exception
+        except Exception as e:
             logging.error("Error during litellm.completion: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:
