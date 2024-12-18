@@ -45,6 +45,30 @@ def extract_qa_pairs(log_entries):
     return qa_pairs
 
 
+def load_and_parse_log_data(log_file_path):
+    """
+    Loads and parses log data from a file.
+
+    Args:
+        log_file_path (str): The path to the log file.
+
+    Returns:
+        list: A list of dictionaries, where each dictionary represents a log entry.
+              Returns None if the file is not found.
+    """
+    log_entries = []
+    try:
+        with open(log_file_path, "r") as f:
+            for line in f:
+                try:
+                    log_entry = json.loads(line)
+                    log_entries.append(log_entry)
+                except json.JSONDecodeError:
+                    logging.warning(f"Skipping invalid JSON line: {line.strip()}")
+    except FileNotFoundError:
+        logging.error(f"Log file not found: {log_file_path}")
+        return None
+    return log_entries
 
 
 if __name__ == "__main__":
