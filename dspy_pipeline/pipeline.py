@@ -49,7 +49,7 @@ class DSPyPipeline(dspy.Module):
                 "Student signature not provided. Pass a student signature to the constructor."
             )
         self.predictor = self.mipro_optimizer.compile(
-            student=self.student_class,
+            student=self.student_class(),
             trainset=trainset,
             max_bootstrapped_demos=max_bootstrapped_demos,
             max_labeled_demos=max_labeled_demos,
