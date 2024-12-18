@@ -2,6 +2,11 @@ import json
 import datetime
 import logging
 import dspy
+import os
+
+LOG_FILE_PATH = os.path.join(os.getcwd(), "api_requests.log")
+MAX_LOG_SIZE = 10 * 1024 * 1024  # 10 MB
+
 
 def _serialize_response(response):
     """
@@ -43,4 +48,19 @@ def _log_request(data, response=None):
     log_data = {"timestamp": timestamp, "request_data": data}
     if response:
         log_data["response_data"] = response
+    
+    # Check if log file exists and is too large
+    if os.path.exists(LOG_FILE_PATH) and os.path.getsize(LOG_FILE_PATH) > MAX_LOG_SIZE:
+        _rotate_log_file()
+    
     logging.info(json.dumps(log_data))
+
+
+def _rotate_log_file():
+    """
+    Helper function to rotate the log file.
+    """
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    rotated_log_file = f"{LOG_FILE_PATH}.{timestamp}"
+    os.rename(LOG_FILE_PATH, rotated_log_file)
+    logging.info(f"Log file rotated to: {rotated_log_file}")
