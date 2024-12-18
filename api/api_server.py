@@ -3,6 +3,7 @@ import litellm
 import os
 import logging
 import json
+import datetime
 
 logging.basicConfig(level=logging.INFO, filename='api_requests.log', filemode='a')
 
