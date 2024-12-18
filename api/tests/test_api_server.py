@@ -123,4 +123,6 @@ def test_chat_completions_empty_body(client):
     # Test with empty request body
     response = client.post("/chat/completions", data=None, content_type='application/json')
     assert response.status_code == 400
-    assert response.get_json()["error"] == "Request body is empty or not properly formatted"
+    json_response = response.get_json()
+    assert json_response is not None
+    assert json_response["error"] == "Request body is empty or not properly formatted"
