@@ -1,5 +1,7 @@
 # Auto-DSPy: Automated DSPy Pipeline
 
+**Note: This project is still a work in progress.**
+
 This project provides an automated pipeline for training and running DSPy models, integrated with a Flask API for easy access.
 
 ## Overview
