@@ -1,3 +1,6 @@
+"""
+This module provides functions to create DSPy datasets from log files.
+"""
 import dspy
 from api.load_data import load_and_parse_log_data
 

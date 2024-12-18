@@ -1,9 +1,16 @@
+"""
+This module contains the DSPyPipeline class, which is responsible for compiling and running DSPy pipelines.
+"""
 import dspy
 from dspy.teleprompt import MIPROv2
 from dspy_pipeline.utils import dummy_metric
 
 
 class DSPyPipeline(dspy.Module):
+    """
+    A class to represent a DSPy pipeline, which compiles and runs DSPy pipelines using MIPROv2.
+    """
+
     def __init__(self, metric=dummy_metric, auto="light", student=None):
         super().__init__()
         self.mipro_optimizer = MIPROv2(metric=metric, auto=auto)
@@ -11,6 +18,18 @@ class DSPyPipeline(dspy.Module):
         self.student = student
 
     def forward(self, question):
+        """
+        Executes the forward pass of the pipeline.
+
+        Args:
+            question (str): The input question to process.
+
+        Returns:
+            dspy.Prediction: The prediction result.
+
+        Raises:
+            ValueError: If the pipeline is not compiled yet.
+        """
         if self.predictor is None:
             raise ValueError("Pipeline not compiled yet. Call compile() first.")
         return self.predictor(question=question)
