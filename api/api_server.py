@@ -11,7 +11,7 @@ import litellm
 
 logging.basicConfig(
     level=logging.INFO,
-    filename="api_requests.log",
+    filename=os.path.join(os.getcwd(), "api_requests.log"),
     filemode="a",
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
@@ -98,8 +98,11 @@ def _handle_chat_completions():
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
             return jsonify(serialized_response)
-        except Exception as e:  # General exception handling
+        except litellm.exceptions.CompletionError as e:
             logging.error("Error during litellm.completion: %s", e)
+            return jsonify({"error": str(e)}), 500
+        except ValueError as e:
+            logging.error("Error handling chat completions: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:  # Specific exception handling
         logging.error("Error handling chat completions: %s", e)
