@@ -29,10 +29,12 @@ def _serialize_response(response):
     return response
 
 
-def _log_request(data):
+def _log_request(data, response=None):
     """
     Helper function to log the request data with timestamp in JSON format
     """
     timestamp = datetime.datetime.now().isoformat()
     log_data = {"timestamp": timestamp, "request_data": data}
+    if response:
+        log_data["response_data"] = response
     logging.info(json.dumps(log_data))

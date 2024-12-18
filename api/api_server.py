@@ -57,6 +57,7 @@ def _handle_chat_completions():
             )
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
+            _log_request(data, serialized_response)
             return jsonify(serialized_response)
         except Exception as e:
             logging.error("Error during litellm.completion: %s", e)
