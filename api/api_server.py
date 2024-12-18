@@ -3,7 +3,6 @@ API server for handling chat completions using litellm.
 """
 
 import os
-import logging
 import json
 import datetime
 from flask import Flask, request, jsonify
@@ -23,12 +22,6 @@ lm = dspy.LM(model=f"openai/{model_name}", max_tokens=500, temperature=0.1)
 # Configure DSPy to use the LLM
 dspy.configure(lm=lm)
 
-logging.basicConfig(
-    level=logging.INFO,
-    filename=os.path.join(os.getcwd(), "api_requests.log"),
-    filemode="a",
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
 
 # Ensure logging configuration is correctly set up
 if not os.path.exists(os.path.join(os.getcwd(), "logs")):
@@ -65,7 +58,6 @@ def _handle_chat_completions():
         if not model or not messages:
             return jsonify({"error": "Missing 'model' or 'messages' in request"}), 400
 
-        logging.debug("Request  %s", data)
         try:
             # Use the DSPy pipeline to generate the response
             question = messages[-1]["content"]
@@ -74,11 +66,9 @@ def _handle_chat_completions():
             _log_request(data, serialized_response)
             return jsonify(serialized_response)
         except Exception as e:
-            logging.error("Error during DSPy pipeline execution: %s", e)
             print(f"Error during DSPy pipeline execution: {e}")
             return jsonify({"error": str(e)}), 500
     except ValueError as e:
-        logging.error("Error handling chat completions: %s", e)
         print(f"Error handling chat completions: {e}")
         return jsonify({"error": str(e)}), 500
     
