@@ -48,6 +48,11 @@ class DSPyPipeline(dspy.Module):
             raise ValueError(
                 "Student signature not provided. Pass a student signature to the constructor."
             )
+        if not trainset:
+            import logging
+            logging.warning("No training data provided. Skipping training.")
+            self.predictor = self.student_class()
+            return self
         self.predictor = self.mipro_optimizer.compile(
             student=self.student_class,
             trainset=trainset,
