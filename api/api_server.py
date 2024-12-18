@@ -8,7 +8,7 @@ import json
 import datetime
 from flask import Flask, request, jsonify
 import litellm
-from litellm.exceptions import CompletionError  # Ensure this import is correct
+from litellm.exceptions import CompletionException as CompletionError  # Corrected import
 
 logging.basicConfig(
     level=logging.INFO,
