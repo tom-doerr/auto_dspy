@@ -98,7 +98,7 @@ def _handle_chat_completions():
             logging.debug("Response  %s", response)
             serialized_response = _serialize_response(response)
             return jsonify(serialized_response)
-        except Exception as e:  # Catching generic Exception
+        except litellm.CompletionError as e:  # Specific exception handling
             logging.error("Error during litellm.completion: %s", e)
             return jsonify({"error": str(e)}), 500
     except ValueError as e:  # Specific exception handling
