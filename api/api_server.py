@@ -2,12 +2,12 @@
 API server for handling chat completions using litellm.
 """
 
-from flask import Flask, request, jsonify
-import litellm
 import os
 import logging
 import json
 import datetime
+from flask import Flask, request, jsonify
+import litellm
 
 logging.basicConfig(level=logging.INFO, filename='api_requests.log', filemode='a')
 
@@ -96,7 +96,7 @@ def _handle_chat_completions():
         except litellm.CompletionError as e:
             logging.error("Error during litellm.completion: %s", e)
             return jsonify({"error": str(e)}), 500
-    except Exception as e:
+    except ValueError as e:  # Specific exception handling
         logging.error("Error handling chat completions: %s", e)
         return jsonify({"error": str(e)}), 500
 
