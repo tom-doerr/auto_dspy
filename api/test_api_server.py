@@ -51,11 +51,11 @@ def test_chat_completions_missing_messages(client):
 
 def test_chat_completions_error(client, monkeypatch):
     # Test with an error from litellm
-    def mock_handle_chat_completions(*args, **kwargs):
+    def mock_call_litellm(*args, **kwargs):
         raise Exception("Test Error")
 
     monkeypatch.setattr(
-        "api_server._handle_chat_completions", mock_handle_chat_completions
+        "api_server._call_litellm", mock_call_litellm
     )
 
     data = {

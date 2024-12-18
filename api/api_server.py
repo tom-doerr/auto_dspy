@@ -21,6 +21,33 @@ def _call_litellm(model, messages, temperature, max_tokens):
         temperature=temperature,
         max_tokens=max_tokens
     )
+
+def _serialize_response(response):
+    """
+    Helper function to serialize the ModelResponse object
+    """
+    if hasattr(response, 'choices') and isinstance(response.choices, list):
+        return {
+            "choices": [
+                {
+                    "message": {
+                        "content": choice.message.content,
+                        "role": choice.message.role
+                    },
+                    "finish_reason": choice.finish_reason,
+                    "index": choice.index
+                }
+                for choice in response.choices
+            ],
+            "model": response.model,
+            "usage": {
+                "completion_tokens": response.usage.completion_tokens,
+                "prompt_tokens": response.usage.prompt_tokens,
+                "total_tokens": response.usage.total_tokens
+            }
+        }
+    return response
+
 def _handle_chat_completions():
     try:
         data = request.get_json()
@@ -41,7 +68,7 @@ def _handle_chat_completions():
                 max_tokens=max_tokens
             )
             logging.debug(f"Response  {response}")
-            return jsonify(response)
+            return jsonify(_serialize_response(response))
         except Exception as e:
             logging.error(f"Error during litellm.completion: {e}")
             return jsonify({"error": str(e)}), 500
