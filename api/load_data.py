@@ -22,7 +22,7 @@ def load_and_parse_log_data(log_file_path):
                     log_entry = json.loads(line.strip())
                     log_entries.append(log_entry)
                 except json.JSONDecodeError:
-                    logging.warning(f"Skipping invalid JSON line: {line.strip()}")
+                    logging.warning(f"Skipping invalid JSON line: {line.strip()} at line {len(log_entries) + 1}")
     except FileNotFoundError:
         logging.error(f"Log file not found: {log_file_path}")
         return None
