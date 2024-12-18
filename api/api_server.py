@@ -9,7 +9,7 @@ import logging
 import json
 import datetime
 
-logging.basicConfig(level=logging.INFO, filename="api_requests.log", filemode="a")
+logging.basicConfig(level=logging.INFO, filename='api_requests.log', filemode='a')
 
 app = Flask(__name__)
 
