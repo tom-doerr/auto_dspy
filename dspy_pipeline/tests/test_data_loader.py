@@ -4,6 +4,7 @@ from dspy_pipeline.data_loader import create_dspy_dataset_from_logs
 import dspy
 import json
 
+
 def create_dummy_log_file(content, filename="test_log.log"):
     """Helper function to create a dummy log file for testing."""
     with open(filename, "w") as f:

@@ -2,6 +2,7 @@ import dspy
 from dspy.teleprompt import MIPROv2
 from dspy_pipeline.signatures import ChatCompletionSignature
 
+
 class DSPyPipeline(dspy.Module):
     def __init__(self, metric, auto="light"):
         super().__init__()

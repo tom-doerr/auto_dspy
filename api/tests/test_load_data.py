@@ -3,11 +3,13 @@ import json
 from load_data import load_and_parse_log_data
 import os
 
+
 def create_dummy_log_file(content, filename="test_log.log"):
     """Helper function to create a dummy log file for testing."""
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         f.write(content)
     return filename
+
 
 def remove_dummy_log_file(filename):
     """Helper function to remove the dummy log file after testing."""
@@ -15,6 +17,7 @@ def remove_dummy_log_file(filename):
         os.remove(filename)
     except FileNotFoundError:
         pass
+
 
 def test_load_and_parse_log_data_success():
     """Test loading and parsing valid JSON log data."""
@@ -30,6 +33,7 @@ def test_load_and_parse_log_data_success():
     assert len(loaded_data) == 2
     assert loaded_data[0]["request_data"]["model"] == "gpt-3.5-turbo"
     assert loaded_data[1]["request_data"]["model"] == "gpt-4"
+
 
 def test_load_and_parse_log_data_with_invalid_json():
     """Test loading and parsing log data with invalid JSON lines."""
@@ -47,11 +51,13 @@ def test_load_and_parse_log_data_with_invalid_json():
     assert loaded_data[0]["request_data"]["model"] == "gpt-3.5-turbo"
     assert loaded_data[1]["request_data"]["model"] == "gpt-4"
 
+
 def test_load_and_parse_log_data_file_not_found():
     """Test loading data when the log file does not exist."""
     log_file = "non_existent_log.log"
     loaded_data = load_and_parse_log_data(log_file)
     assert loaded_data is None
+
 
 def test_load_and_parse_log_data_empty_file():
     """Test loading data from an empty log file."""

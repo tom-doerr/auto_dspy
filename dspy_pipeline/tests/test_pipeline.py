@@ -3,6 +3,7 @@ import dspy
 from dspy_pipeline.pipeline import DSPyPipeline
 from dspy_pipeline.signatures import ChatCompletionSignature
 
+
 def test_dspy_pipeline_compile_and_forward():
     """Test compiling and running the DSPy pipeline."""
     # Create a dummy trainset
@@ -24,11 +25,12 @@ def test_dspy_pipeline_compile_and_forward():
 
     assert prediction is not None
     assert isinstance(prediction, dspy.Prediction)
-    assert hasattr(prediction, 'answer')
+    assert hasattr(prediction, "answer")
 
 
 def test_dspy_pipeline_not_compiled():
     """Test that the pipeline raises an error if not compiled."""
+
     # Define a dummy metric
     def dummy_metric(gold, pred, trace=None):
         return 1
@@ -37,5 +39,7 @@ def test_dspy_pipeline_not_compiled():
     pipeline = DSPyPipeline(metric=dummy_metric)
 
     # Test that forward pass raises an error
-    with pytest.raises(ValueError, match="Pipeline not compiled yet. Call compile() first."):
+    with pytest.raises(
+        ValueError, match="Pipeline not compiled yet. Call compile() first."
+    ):
         pipeline("What is the capital of Germany?")
