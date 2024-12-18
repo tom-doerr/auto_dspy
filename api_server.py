@@ -9,6 +9,18 @@ app = Flask(__name__)
 
 @app.route('/chat/completions', methods=['POST'])
 def chat_completions():
+    return _handle_chat_completions()
+
+def _call_litellm(model, messages, temperature, max_tokens):
+    """
+    Helper function to call litellm.completion
+    """
+    return litellm.completion(
+        model=model,
+        messages=messages,
+        temperature=temperature,
+        max_tokens=max_tokens
+def _handle_chat_completions():
     try:
         data = request.get_json()
         model = data.get('model')
@@ -32,17 +44,6 @@ def chat_completions():
         except Exception as e:
             logging.error(f"Error during litellm.completion: {e}")
             return jsonify({"error": str(e)}), 500
-
-def _call_litellm(model, messages, temperature, max_tokens):
-    """
-    Helper function to call litellm.completion
-    """
-    return litellm.completion(
-        model=model,
-        messages=messages,
-        temperature=temperature,
-        max_tokens=max_tokens
-    )
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get("PORT", 5000)))
