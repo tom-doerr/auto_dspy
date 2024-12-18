@@ -9,7 +9,7 @@ import logging
 import json
 import datetime
 
-logging.basicConfig(level=logging.INFO, filename='api_requests.log', filemode='a')
+logging.basicConfig(level=logging.INFO, filename="api_requests.log", filemode="a")
 
 app = Flask(__name__)
 
@@ -61,10 +61,7 @@ def _log_request(data):
     Helper function to log the request data with timestamp in JSON format
     """
     timestamp = datetime.datetime.now().isoformat()
-    log_data = {
-        "timestamp": timestamp,
-        "request_data": data
-    }
+    log_data = {"timestamp": timestamp, "request_data": data}
     logging.info(json.dumps(log_data))
 
 
@@ -72,7 +69,10 @@ def _handle_chat_completions():
     try:
         data = request.get_json()
         if data is None:
-            return jsonify({"error": "Request body is empty or not properly formatted"}), 400
+            return (
+                jsonify({"error": "Request body is empty or not properly formatted"}),
+                400,
+            )
         _log_request(data)
         model = data.get("model")
         messages = data.get("messages")
