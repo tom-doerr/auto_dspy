@@ -20,6 +20,7 @@ def _call_litellm(model, messages, temperature, max_tokens):
         messages=messages,
         temperature=temperature,
         max_tokens=max_tokens
+    )
 def _handle_chat_completions():
     try:
         data = request.get_json()
