@@ -50,9 +50,22 @@ def _serialize_response(response):
     return response
 
 
+def _log_request(data):
+    """
+    Helper function to log the request data with timestamp in JSON format
+    """
+    timestamp = datetime.datetime.now().isoformat()
+    log_data = {
+        "timestamp": timestamp,
+        "request_data": data
+    }
+    logging.info(json.dumps(log_data))
+
+
 def _handle_chat_completions():
     try:
         data = request.get_json()
+        _log_request(data)
         model = data.get("model")
         messages = data.get("messages")
         temperature = data.get("temperature")
