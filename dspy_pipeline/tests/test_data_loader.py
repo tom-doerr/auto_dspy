@@ -33,7 +33,29 @@ def test_create_dspy_dataset_from_logs_success():
     assert len(dspy_dataset) == 2
     assert isinstance(dspy_dataset[0], dspy.Example)
     assert dspy_dataset[0].question == "hello"
+    assert dspy_dataset[0].answer == "hi there"
     assert dspy_dataset[1].question == "how are you?"
+    assert dspy_dataset[1].answer == "I am fine, thank you"
+    assert dspy_dataset[0].answer is None
+    assert dspy_dataset[1].answer is None
+
+
+def test_create_dspy_dataset_from_logs_with_response_success():
+    """Test creating a DSPy dataset from valid log data with responses."""
+    log_content = """
+    {"timestamp": "2024-05-02T10:00:00", "request_data": {"messages": [{"role": "user", "content": "hello"}]}, "response_data": {"choices": [{"message": {"role": "assistant", "content": "hi there"}}]}}
+    {"timestamp": "2024-05-02T10:05:00", "request_data": {"messages": [{"role": "user", "content": "how are you?"}]}, "response_data": {"choices": [{"message": {"role": "assistant", "content": "I am fine, thank you"}}]}}
+    """
+    log_file = create_dummy_log_file(log_content)
+    dspy_dataset = create_dspy_dataset_from_logs(log_file)
+    remove_dummy_log_file(log_file)
+
+    assert len(dspy_dataset) == 2
+    assert isinstance(dspy_dataset[0], dspy.Example)
+    assert dspy_dataset[0].question == "hello"
+    assert dspy_dataset[0].answer == "hi there"
+    assert dspy_dataset[1].question == "how are you?"
+    assert dspy_dataset[1].answer == "I am fine, thank you"
 
 
 def test_create_dspy_dataset_from_logs_no_messages():
