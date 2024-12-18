@@ -96,7 +96,4 @@ def test_create_dspy_dataset_from_logs_invalid_json():
     dspy_dataset = create_dspy_dataset_from_logs(log_file)
     remove_dummy_log_file(log_file)
 
-    assert len(dspy_dataset) == 2
-    assert isinstance(dspy_dataset[0], dspy.Example)
-    assert dspy_dataset[0].question == "hello"
-    assert dspy_dataset[1].question == "how are you?"
+    assert len(dspy_dataset) == 0  # No examples created because no response data

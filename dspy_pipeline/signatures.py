@@ -12,3 +12,8 @@ class ChatCompletionSignature(dspy.Signature):
 
     question = dspy.InputField()
     answer = dspy.OutputField()
+
+    @classmethod
+    def predictors(cls):
+        """Return the list of predictors needed for this signature."""
+        return ['answer']
