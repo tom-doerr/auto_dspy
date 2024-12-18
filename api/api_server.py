@@ -45,6 +45,9 @@ def _handle_chat_completions():
         except Exception as e:
             logging.error(f"Error during litellm.completion: {e}")
             return jsonify({"error": str(e)}), 500
+    except Exception as e:
+        logging.error(f"Error processing request: {e}")
+        return jsonify({"error": "Internal Server Error"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get("PORT", 5000)))
