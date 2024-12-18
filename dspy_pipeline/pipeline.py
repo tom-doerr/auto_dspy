@@ -1,6 +1,7 @@
 """
 This module contains the DSPyPipeline class, which is responsible for compiling and running DSPy pipelines.
 """
+
 import dspy
 from dspy.teleprompt import MIPROv2
 from dspy_pipeline.utils import dummy_metric
@@ -44,7 +45,9 @@ class DSPyPipeline(dspy.Module):
             max_labeled_demos (int): Maximum number of labeled demos.
         """
         if self.student is None:
-            raise ValueError("Student signature not provided. Pass a student signature to the constructor.")
+            raise ValueError(
+                "Student signature not provided. Pass a student signature to the constructor."
+            )
         self.predictor = self.mipro_optimizer.compile(
             student=self.student,
             trainset=trainset,

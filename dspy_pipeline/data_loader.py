@@ -3,7 +3,9 @@ This module provides functions to create DSPy datasets from log files.
 """
 
 import dspy
-from some_module.load_data import load_and_parse_log_data  # Replace 'some_module' with the correct module path
+from some_module.load_data import (
+    load_and_parse_log_data,
+)  # Replace 'some_module' with the correct module path
 
 
 def create_dspy_dataset_from_logs(log_file_path):
