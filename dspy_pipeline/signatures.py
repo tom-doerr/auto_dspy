@@ -20,4 +20,4 @@ class ChatCompletionSignature(dspy.Signature):
 
     def __deepcopy__(self, memo):
         """Return a deep copy of the signature."""
-        return type(self)()
+        return self.__class__()
