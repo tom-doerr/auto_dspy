@@ -6,6 +6,13 @@ import dspy
 from api.load_data import (
     load_and_parse_log_data,
 )
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 def create_dspy_dataset_from_logs(log_file_path):
@@ -51,3 +58,18 @@ def create_dspy_dataset_from_logs(log_file_path):
             dspy_example = dspy.Example(question=question, answer=answer).with_inputs("question")
             dspy_examples.append(dspy_example)
     return dspy_examples
+
+
+if __name__ == "__main__":
+    log_file_path = "api_requests.log"  # Path to your log file
+    logging.info(f"Loading log data from: {log_file_path}")
+    trainset = create_dspy_dataset_from_logs(log_file_path)
+
+    if not trainset:
+        logging.warning("No training data found in log file.")
+    else:
+        logging.info(f"Training data loaded. Number of examples: {len(trainset)}")
+        for example in trainset:
+            print(f"Question: {example.question}")
+            print(f"Answer: {example.answer}")
+            print("-" * 20)
