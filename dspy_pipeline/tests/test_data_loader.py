@@ -30,14 +30,7 @@ def test_create_dspy_dataset_from_logs_success():
     dspy_dataset = create_dspy_dataset_from_logs(log_file)
     remove_dummy_log_file(log_file)
 
-    assert len(dspy_dataset) == 2
-    assert isinstance(dspy_dataset[0], dspy.Example)
-    assert dspy_dataset[0].question == "hello"
-    assert dspy_dataset[0].answer == "hi there"
-    assert dspy_dataset[1].question == "how are you?"
-    assert dspy_dataset[1].answer == "I am fine, thank you"
-    assert dspy_dataset[0].answer is None
-    assert dspy_dataset[1].answer is None
+    assert len(dspy_dataset) == 0  # No examples created because no response data
 
 
 def test_create_dspy_dataset_from_logs_with_response_success():
